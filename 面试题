@@ -1,0 +1,299 @@
+1、找出元素 item 在给定数组 arr 中的位置  
+function indexOf(arr, item) {
+    if(Array.prototype.indexOf){
+        return arr.indexOf(item)
+    }else{
+        for(var i=0;i<arr.length;i++){
+            if(arr[i]==item){
+                return i;
+            }
+        }
+    }
+}
+--------------------------------------------------------------------------------
+ndexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置，若未找到，则返回-1。
+function indexOf(arr, item) {
+   return arr.indexOf(item);
+ }
+ --------------------------------------------------------------------------------
+ function indexOf(arr, item) {
+  if (Array.prototype.indexOf){
+      return arr.indexOf(item);
+  } else {
+      for (var i = 0; i < arr.length; i++){
+          if (arr[i] === item){
+              return i;
+          }
+      }
+  }     
+  return -1;
+}   
+===============================================================================
+2.计算给定数组 arr 中所有元素的总和   
+function sum(arr) {
+    return eval(arr.join('+'));
+}  
+-------------------------------------------------------------------------------
+递归：
+function sum(arr) {
+    var len = arr.length;
+    if(len == 0){
+        return 0;
+    } else if (len == 1){
+        return arr[0];
+    } else {
+        return arr[0] + sum(arr.slice(1));
+    }
+}  
+-------------------------------------------------------------------------------
+常规循环：  
+function sum(arr) {
+    var s = 0;
+    for (var i=arr.length-1; i>=0; i--) {
+        s += arr[i];
+    }
+    return s;
+}  
+-------------------------------------------------------------------------------  
+函数式编程 map-reduce  
+function sum(arr) {
+    return arr.reduce(function(prev, curr, idx, arr){
+        return prev + curr;
+    });
+}   
+-------------------------------------------------------------------------------  
+forEach遍历：
+function sum(arr) {
+    var s = 0;
+    arr.forEach(function(val, idx, arr) {
+        s += val;
+    }, 0);
+  
+    return s;
+};
+-------------------------------------------------------------------------------  
+/**
+ * 最普通的遍历求值
+ * @param arr
+ * @returns {number}
+ */
+var sum = function(arr) {
+    var length = arr.length,
+        sum = 0;
+    for (var i = 0; i < length; i++) {
+        sum += arr[i];
+    }
+ 
+    return sum;
+};
+ -------------------------------------------------------------------------------  
+/**
+ * 使用累加方法reduce
+ * 这里列出了所有的函数形参
+ * @param arr
+ * @returns {*}
+ */
+var sum2 = function(arr) {
+    return arr.reduce(function(prev, curr, index, arr) {
+        return prev + curr;
+    });
+};
+ -------------------------------------------------------------------------------  
+/**
+ * 使用forEach遍历
+ * @param arr
+ * @returns {number}
+ */
+var sum3 = function(arr) {
+    var sum = 0;
+ 
+    arr.forEach(function(value, index, arr) {
+        sum += value;
+    }, 0);
+ 
+    return sum;
+};
+===============================================================================
+3. 题目要求不改变原数组，所以我们可以声明一个数组a用于保存arr中不同于item的值，最后将a返回。
+function remove(arr, item) {
+     //声明一个新数组保存结果
+     var a = [];
+     //循环遍历
+     for(var i=0; i < arr.length; i++){
+         //如果arr[i]不等于item，就加入数组a
+         if(arr[i] != item){
+             a.push(arr[i]);
+         }
+     }
+     return a;
+ }
+ -------------------------------------------------------------------------------  
+function remove(arr, item) {
+    return arr.filter(function(x) { return x !== item; });
+}
+-------------------------------------------------------------------------------  
+function remove(arr,item){
+    var newarr = arr.slice(0);
+    for(var i=0;i<newarr.length;i++){
+        if(newarr[i] == item){
+            newarr.splice(i,1);
+            i--;
+        }
+    }
+    return newarr;
+}
+-------------------------------------------------------------------------------           
+function remove(arr,item){
+    var newarr = [];
+    for(var i=0;i<arr.length;i++){
+        if(arr[i] != item){
+            newarr.push(arr[i]);
+        }
+    }
+    return newarr;
+}
+-------------------------------------------------------------------------------  
+function remove(arr,item){
+    var newarr = [];
+    for(var i=0;i<arr.length;i++){
+        if(arr[i] == item)continue;
+       newarr.push(arr[i]);
+    }
+    return nawarr;
+}
+-------------------------------------------------------------------------------  
+function remove(arr,item){
+    return arr.filter(function(ele){
+         return ele != item;
+    })
+}
+===============================================================================
+4. 移除数组 arr 中的所有值与 item 相等的元素，直接在给定的 arr 数组上进行操作，并将结果返回
+function removeWithoutCopy(arr, item) {
+  for ( i = 0; i < arr.length; i++) {
+        if ( arr[i] == item) {
+            arr.splice(i, 1);
+            i--;
+        }
+             
+     }
+ 
+    return arr;
+}
+-------------------------------------------------------------------------------  
+
+function removeWithoutCopy(arr, item) {
+    for(var i=0; i<arr.length; i++)
+    {
+        if(item == arr[i])
+        {
+            arr.splice(i,1);
+            i--;
+        }
+    }
+    return arr;
+}
+-------------------------------------------------------------------------------  
+
+function removeWithoutCopy(arr, item) {
+    for(i=arr.length-1;i>=0;i--)
+      {
+       if(arr[i]==item)
+         {
+                    arr.splice(i,1);
+          }
+       }
+    return arr;
+}
+-------------------------------------------------------------------------------  
+
+题目要求在原数组上面直接修改，删除数组元素，可以用splice方法，给其传递两个参数，  
+第一个参数表示起始位置，第二个参数表示删除元素的个数。因此，循环遍历数组arr，  
+如果arr[i] == item，就将i作为第一个参数，1作为第二个参数（只删除一个元素）  
+传给splice方法。需要注意的是，splice方法会改变数组的长度，因此在每次删除之后，  
+都需要执行i--以确保数组长度正确。 
+
+function removeWithoutCopy(arr, item) {
+     for(var i = 0; i < arr.length; i++){
+         if(arr[i] == item){
+             //splice方法会改变数组长度，当减掉一个元素后，后面的元素都会前移，因此需要相应减少i的值
+             arr.splice(i,1);
+             i--;
+         }
+     }
+     return arr;
+ }
+
+===============================================================================
+5.在数组 arr 末尾添加元素 item。不要直接修改数组 arr，结果返回新的数组
+function append(arr, item) {
+     var newarr =new Array();
+    for( var i=0;i<arr.length;i++){
+        newarr[i]=arr[i];
+    }
+    newarr.push(item);
+    return newarr;
+}
+-------------------------------------------------------------------------------  
+
+/**
+ * 普通的迭代拷贝
+ * @param arr
+ * @param item
+ * @returns {Array}
+ */
+var append = function(arr, item) {
+    var length = arr.length,
+        newArr = [];
+ 
+    for (var i = 0; i < length; i++) {
+        newArr.push(arr[i]);
+    }
+ 
+    newArr.push(item);
+ 
+    return newArr;
+};
+ -------------------------------------------------------------------------------  
+
+/**
+ * 使用slice浅拷贝+push组合
+ * @param arr
+ * @param item
+ * @returns {Blob|ArrayBuffer|Array.<T>|string}
+ */
+var append2 = function(arr, item) {
+    var newArr = arr.slice(0);  // slice(start, end)浅拷贝数组
+    newArr.push(item);
+    return newArr;
+};
+ -------------------------------------------------------------------------------  
+
+/**
+ * 使用concat将传入的数组或非数组值与原数组合并,组成一个新的数组并返回
+ * @param arr
+ * @param item
+ * @returns {Array.<T>|string}
+ */
+var append3 = function(arr, item) {
+    return arr.concat(item);
+};
+-------------------------------------------------------------------------------  
+
+使用slice()复制数组arr赋值给arr2,用push()添加元素item，
+但注意push()方法修改原数组，它返回的是新的数组的长度,
+所以例子中return arr2.push(item)；返回的是5；
+concat() 方法不会改变现有的数组，而仅仅会返回被连接数组的一个副本。  
+
+function append(arr, item) {
+    var arr2 = arr.slice(0);
+    // arr2.push(item);
+    //  return    arr2;
+    returnarr.concat([item]);
+}
+-------------------------------------------------------------------------------  
+
+function append(arr, item) {
+    // return arr.push(item);
+    return arr.concat([item]);
+}
